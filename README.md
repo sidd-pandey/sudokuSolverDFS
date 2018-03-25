@@ -3,6 +3,7 @@
 A simple DFS solution to solve sudoku implemented in java.
 
 To load a sudoku form file pass the file name as command line param.
+For eg: java SudokuSolver "ex.txt"
 Each file should contain only one sudoku instance.
 Format of sudoku instance is shown below.
 
