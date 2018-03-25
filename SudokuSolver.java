@@ -10,23 +10,24 @@ public class SudokuSolver {
 
 	public static final int m = 3;
 	public static final int n = m * m;
-	
+
 	public static void main(String[] args){
-		new SudokuSolver().run();
+		String fileName = args[0];
+		new SudokuSolver().run(fileName);
 	}
-	
-	public void run(){
-		int[][] sudoku = readSudokuFromFile("ex1.txt");
+
+	public void run(String fileName){
+		int[][] sudoku = readSudokuFromFile(fileName);
 		System.out.println("Problem sudoku: ");
 		print(sudoku);
 		int[][] solvedSudoku = solve(sudoku);
 		System.out.println("Solution: ");
 		print(solvedSudoku);
-				
+
 	}
-	
+
 	private int[][] solve(int[][] sudoku){
-		
+
 		if(isDone(sudoku)) return sudoku;
 		else{
 			Cell c = nextCell(sudoku);
@@ -42,10 +43,10 @@ public class SudokuSolver {
 		}
 		return null;
 	}
-	
+
 	private boolean isDone(int[][] sudoku){
 		if(sudoku == null) return false;
-		
+
 		for(int i = 0; i < n; i++){
 			for(int j = 0; j < n; j++){
 				if(sudoku[i][j] == 0) return false;
@@ -57,18 +58,18 @@ public class SudokuSolver {
 		}
 		return true;
 	}
-	
+
 	private List<Integer> getPossibilities(int r, int c, int[][] sudoku){
 		Set<Integer> rowVals = new HashSet<>();
 		for(int i = 0; i < n ; i++){
 			if(sudoku[r][i] != 0) rowVals.add(sudoku[r][i]);
 		}
-		
+
 		Set<Integer> colVals = new HashSet<>();
 		for(int i = 0; i < n ; i++){
 			if(sudoku[i][c] != 0) colVals.add(sudoku[i][c]);
 		}
-		
+
 		Set<Integer> sqVals = new HashSet<>();
 		int rlow = r - r%m, rup = rlow+3;
 		int clow = c - c%m, cup = clow+3;
@@ -78,19 +79,19 @@ public class SudokuSolver {
 				if(sudoku[i][j] != 0) sqVals.add(sudoku[i][j]);
 			}
 		}
-				
+
 		HashSet<Integer> allVals = new HashSet<>();
 		for(int i = 1; i <= n ; i++){
 			allVals.add(i);
 		}
-	
+
 		rowVals.addAll(colVals);
 		rowVals.addAll(sqVals);
 		allVals.removeAll(rowVals);
-		
+
 		return new ArrayList<Integer>(allVals);
 	}
-	
+
 	private Cell nextCell(int[][] sudoku){
 
 		for (int i = 0; i < n; i++){
@@ -105,7 +106,7 @@ public class SudokuSolver {
 		}
 		return null;
 	}
-	
+
 	private int[][] copy(int[][] old){
 		int[][] newMat = new int[old.length][];
 		for (int i = 0; i < old.length; i++){
@@ -116,7 +117,7 @@ public class SudokuSolver {
 		}
 		return newMat;
 	}
-	
+
 	private void print(int[][] sudoku){
 		for (int i = 0; i < n; i++){
 			for (int j = 0; j < n; j++){
@@ -137,18 +138,18 @@ public class SudokuSolver {
 					sudoku[i][j] = Integer.parseInt(""+line.charAt(j));
 				}
 			}
-			
+
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return sudoku;
 	}
-	
+
 	private static class Cell {
 		int x, y;
 	}
-	
+
 	private int rowCnt(int r, int c, int[][] sdk){
 		int target = sdk[r][c];
 		int count = 0;
@@ -156,7 +157,7 @@ public class SudokuSolver {
 			if(sdk[r][i] == target && i!=c) count++;
 		return count;
 	}
-	
+
 	private int colCnt(int r, int c, int[][] sdk){
 		int target = sdk[r][c];
 		int count = 0;
@@ -164,11 +165,11 @@ public class SudokuSolver {
 			if(sdk[i][c] == target && i!=r) count++;
 		return count;
 	}
-	
+
 	private int sqCnt(int r, int c, int[][] sdk){
 		int rlow = r - r%m, rup = rlow+3;
 		int clow = c - c%m, cup = clow+3;
-		
+
 		int target = sdk[r][c];
 		int count = 0;
 		for(int i = rlow; i < rup; i++){
@@ -179,6 +180,6 @@ public class SudokuSolver {
 		}
 		return count;
 	}
-	
+
 
 }
