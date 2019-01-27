@@ -26,3 +26,5 @@ Format of sudoku instance is shown below.
 9 2 8 0 0 0 0 6 0
 
 You can get many sudoku problems from http://lipas.uwasa.fi/~timan/sudoku/
+
+Youtube link: https://www.youtube.com/watch?v=dgwQi7E7xjE&t=24s
